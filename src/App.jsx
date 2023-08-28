@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import ReactMapGL from "react-map-gl";
+import "./App.css";
+
+const token = import.meta.env.VITE_MAPBOX_TOKEN;
+const initialViewport = {
+  latitude: 49.805449,
+  longitude: 15.628458,
+  zoom: 6,
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [viewport, setViewport] = useState(initialViewport);
+
+  console.log("token: ", token);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ReactMapGL
+      mapboxAccessToken={token}
+      style={{ width: "100vw", height: "100vh" }}
+      {...viewport}
+      onMove={(event) => setViewport(event.viewState)}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
+    >
+      hola
+    </ReactMapGL>
+  );
 }
 
-export default App
+export default App;
